@@ -1,4 +1,5 @@
 const tracer = require('tracer')
+const schedule = require('node-schedule')
 const logger = tracer.colorConsole({level: 'trace'})
 const request = require('request')
 const axios = require('axios')
@@ -162,16 +163,22 @@ const initateSlackBot = async (slackTeam, onboarding) => {
 
     // bot.postMessage('U8SQB64KB', `Hello! Welcome to Savvy 🙂 Head over to connect.heysavvy.com to connect up to Google Drive! 🚀`)
 
+    const randomFact = allRandomFacts[Math.floor(Math.random()*allRandomFacts.length)]
+    bot.postMessage('C8TD1NJF4', randomFact)
+    var j = schedule.scheduleJob('*/10 * * * *', function(){
+      const randomFact1 = allRandomFacts[Math.floor(Math.random()*allRandomFacts.length)]
+      bot.postMessage('C8TD1NJF4', randomFact1)
+    })
 
 
-    const another = () => {
-      const randomFact = allRandomFacts[Math.floor(Math.random()*allRandomFacts.length)]
-      bot.postMessage('U8SQB64KB', randomFact)
-      setTimeout(function() {
-        another()
-      }, 10 * 60 * 1000)
-    }
-    another()
+    // const another = () => {
+    //   const randomFact = allRandomFacts[Math.floor(Math.random()*allRandomFacts.length)]
+    //   bot.postMessage('U8SQB64KB', randomFact)
+    //   setTimeout(function() {
+    //     another()
+    //   }, 10 * 60 * 1000)
+    // }
+    // another()
 	})
 
 	// bot.on('message', async message => {
