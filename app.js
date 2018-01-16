@@ -32,7 +32,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/', express.static('./app/views'));
+app.get('/', (req, res) => res.send('Hello World!'))
+// app.use('/', express.static('./app/views'));
 // app.use('/api', api);
 // app.use('/users', users);
 // app.use('/notify', notifications);

@@ -1,4 +1,5 @@
 const tracer = require('tracer')
+const http = require('http')
 const schedule = require('node-schedule')
 const logger = tracer.colorConsole({level: 'trace'})
 const request = require('request')
@@ -163,13 +164,17 @@ const initateSlackBot = async (slackTeam, onboarding) => {
 
     // bot.postMessage('U8SQB64KB', `Hello! Welcome to Savvy 🙂 Head over to connect.heysavvy.com to connect up to Google Drive! 🚀`)
 
-    const randomFact = allRandomFacts[Math.floor(Math.random()*allRandomFacts.length)]
-    bot.postMessage('C8TD1NJF4', randomFact)
-    var j = schedule.scheduleJob('*/10 * * * *', function(){
-      const randomFact1 = allRandomFacts[Math.floor(Math.random()*allRandomFacts.length)]
-      bot.postMessage('C8TD1NJF4', randomFact1)
-    })
+    const sendFact = () => {
+      const randomFact = allRandomFacts[Math.floor(Math.random()*allRandomFacts.length)]
+      console.log('Sending:', randomFact)
+      bot.postMessage('C8TD1NJF4', randomFact)
+    }
 
+    sendFact()
+    var j = schedule.scheduleJob('*/10 * * * *', function(){
+      http.get("http://factly.herokuapp.com")
+      sendFact()
+    })
 
     // const another = () => {
     //   const randomFact = allRandomFacts[Math.floor(Math.random()*allRandomFacts.length)]
