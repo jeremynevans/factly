@@ -22,6 +22,8 @@ const verifySlack = token => {
   return verified
 }
 
+var Paused = false
+
 // exports.oauth = function(req, res) {
 //   logger.trace('oauth', req)
 // 	// When a user authorizes an app, a code query parameter is passed on the oAuth endpoint. If that code is not there, we respond with an error message
@@ -165,9 +167,11 @@ const initateSlackBot = async (slackTeam, onboarding) => {
     // bot.postMessage('U8SQB64KB', `Hello! Welcome to Savvy 🙂 Head over to connect.heysavvy.com to connect up to Google Drive! 🚀`)
 
     const sendFact = () => {
-      const randomFact = allRandomFacts[Math.floor(Math.random()*allRandomFacts.length)]
-      console.log('Sending:', randomFact)
-      bot.postMessage('C8TD1NJF4', randomFact)
+      if (!Paused) {
+        const randomFact = allRandomFacts[Math.floor(Math.random()*allRandomFacts.length)]
+        console.log('Sending:', randomFact)
+        bot.postMessage('C8TD1NJF4', randomFact)
+      }
     }
 
     sendFact()
@@ -186,31 +190,24 @@ const initateSlackBot = async (slackTeam, onboarding) => {
     // another()
 	})
 
-	// bot.on('message', async message => {
-  //   const messageTypesToIgnore = ['hello', 'reconnect_url', 'presence_change', 'desktop_notification', 'user_typing', 'channel_joined', 'channel_created', 'member_joined_channel']
-  //   const messageSubTypesToIgnore = ['bot_message', 'channel_join']
-  //   if (messageTypesToIgnore.indexOf(message.type) === -1 && messageSubTypesToIgnore.indexOf(message.subtype) === -1) {
-  //     logger.trace('slack event:', message)
-  //
-  //     if (message.text && message.text.match(/^(<@\w+>)?\s*integration\S?\s*$/)) {
-  //       logger.trace(slackTeam)
-  //       const org = await getOrg(slackTeam.teamID)
-  //       logger.trace(org)
-  //       const messageData = {
-  //         teamID: message.team,
-  //         recipient: message.channel,
-  //         text: 'Ready to connect up your Google Drive and become a Savvy power user? 🚀 Just go here: ' + org.name + '.heysavvy.com'
-  //       }
-  //       logger.trace(messageData)
-  //       sendMessage(messageData)
-  //     } else {
-  //       // Should send data to Chatbot and return messages for emitting
-  //       // TODO: Support postEphemeral(id, user, text, params) for slash commands
-  //       // slack.handleMessage(slackTeam, message)
-  //     }
-  //
-  //   }
-	// })
+	bot.on('message', async message => {
+    const messageTypesToIgnore = ['hello', 'reconnect_url', 'presence_change', 'desktop_notification', 'user_typing', 'channel_joined', 'channel_created', 'member_joined_channel']
+    const messageSubTypesToIgnore = ['bot_message', 'channel_join']
+    if (messageTypesToIgnore.indexOf(message.type) === -1 && messageSubTypesToIgnore.indexOf(message.subtype) === -1) {
+      logger.trace('slack event:', message)
+
+      if (message.text && message.text.match(/^(<@\w+>)?\s*pause\S?\s*$/)) {
+        Paused = true
+        console.log('Paused!')
+        bot.postMessage('C8TD1NJF4', 'OK I am now paused until you say "resume" :)')
+      }
+      else if (message.text && message.text.match(/^(<@\w+>)?\s*resume\S?\s*$/)) {
+        Paused = false
+        console.log('Paused!')
+        bot.postMessage('C8TD1NJF4', 'OK I\'m resuming until you say "pause" :)')
+      }
+    }
+	})
 }
 
 
