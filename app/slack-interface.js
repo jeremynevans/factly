@@ -62,8 +62,6 @@ const stopFacts = (bot, channel) => {
   bot.postMessage(country.channel, '🚦 OK I am now paused until you say "go" 🙂')
 }
 
-startFacts({postMessage: (a,b) => {}}, 'C8TD1NJF4')
-
 
 const initateSlackBot = async (slackTeam, onboarding) => {
 	logger.trace(initateSlackBot, slackTeam)
@@ -93,9 +91,9 @@ const initateSlackBot = async (slackTeam, onboarding) => {
       logger.trace('slack event:', message)
 
       if (message.text && message.text.match(/^(<@\w+>)?\s*stop\S?\s*$/))
-        stopFacts(message.channel.id)
+        stopFacts(bot, message.channel)
       else if (message.text && message.text.match(/^(<@\w+>)?\s*go\S?\s*$/))
-        startFacts(message.channel.id)
+        startFacts(bot, message.channel)
     }
 	})
 }
