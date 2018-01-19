@@ -1,4 +1,5 @@
 const countries = {
+  always: { facts: ['repeat!'] },
   france: require('./facts/france'),
   norway: require('./facts/norway'),
 }

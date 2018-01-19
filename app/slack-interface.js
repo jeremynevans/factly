@@ -23,6 +23,11 @@ const verifySlack = token => {
 
 const countries = [
   {
+    key: 'always',
+    name: 'Always',
+    channel: 'C8W8SSJUW'
+  },
+  {
     key: 'france',
     name: 'France',
     channel: 'C8TD1NJF4'
@@ -82,6 +87,7 @@ const initateSlackBot = async (slackTeam, onboarding) => {
 
 	bot.on('start', async () => {
 		logger.info('slackbot has 🙏 connected to team ' + slackTeam.name)
+    startFacts(bot, 'C8W8SSJUW')
 	})
 
 	bot.on('message', async message => {
