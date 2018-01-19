@@ -62,7 +62,7 @@ const startFacts = (bot, channel) => {
 const stopFacts = (bot, channel) => {
   const country = getCountryByChannel(channel)
   // Stop the scheduler
-  // schedule.unschedule(country.scheduler)
+  country.scheduler.cancel()
   console.log('Pausing on ' + country.name + ' (channel ' + channel + ')')
   bot.postMessage(country.channel, '🚦 OK I am now paused until you say "go" 🙂')
 }
