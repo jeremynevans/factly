@@ -2,6 +2,7 @@ const countries = {
   always: { facts: ['repeat!'] },
   france: require('./facts/france'),
   norway: require('./facts/norway'),
+  germany: require('./facts/germany'),
 }
 
 exports.getRandomFact = country => {
