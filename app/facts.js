@@ -4,6 +4,7 @@ const countries = {
   norway: require('./facts/norway'),
   germany: require('./facts/germany'),
   czech: require('./facts/czech'),
+  slovakia: require('./facts/slovakia'),
 }
 
 exports.getRandomFact = country => {

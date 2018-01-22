@@ -47,6 +47,11 @@ const countries = [
     name: 'Czech Republic',
     channel: 'C8VCGFQD6'
   },
+  {
+    key: 'slovakia',
+    name: 'Slovakia',
+    channel: 'C8VR7SFPT'
+  },
 ]
 
 const getCountry = countryKey => countries.filter(country => country.key === countryKey)[0]
